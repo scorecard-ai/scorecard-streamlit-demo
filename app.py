@@ -12,11 +12,6 @@ with st.sidebar:
         type="password",
         value=os.getenv("OPENAI_API_KEY", "")
     )
-    
-    model = st.selectbox(
-        "Model",
-        ["gpt-4o-mini", "gpt-4o", "gpt-3.5-turbo"]
-    )
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -45,7 +40,7 @@ if prompt := st.chat_input("Ask me anything!"):
     with st.chat_message("assistant"):
         try:
             response = client.chat.completions.create(
-                model=model,
+                model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
