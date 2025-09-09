@@ -1,21 +1,8 @@
 import streamlit as st
 import openai
 import os
-import sys
-
-# Auto-start Streamlit if running directly
-if __name__ == "__main__":
-    import subprocess
-    port = os.getenv("PORT", "8501")
-    subprocess.run([
-        sys.executable, "-m", "streamlit", "run", __file__,
-        "--server.port", port,
-        "--server.address", "0.0.0.0",
-        "--server.headless", "true"
-    ])
 
 st.title("🤖 AI Chat Demo")
-st.markdown("Simple Streamlit app for Scorecard integration demo.")
 
 # Get API key from environment
 openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -48,10 +35,7 @@ if prompt := st.chat_input("Ask me anything!"):
         try:
             response = client.chat.completions.create(
                 model="gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": prompt}
-                ]
+                messages=[{"role": "user", "content": prompt}]
             )
             
             ai_response = response.choices[0].message.content
@@ -64,7 +48,3 @@ if prompt := st.chat_input("Ask me anything!"):
                 
         except Exception as e:
             st.error(f"Error: {str(e)}")
-
-if st.button("Clear Chat"):
-    st.session_state.messages = []
-    st.rerun()
