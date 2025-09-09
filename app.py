@@ -1,6 +1,18 @@
 import streamlit as st
 import openai
 import os
+import sys
+
+# Auto-start Streamlit if running directly
+if __name__ == "__main__":
+    import subprocess
+    port = os.getenv("PORT", "8501")
+    subprocess.run([
+        sys.executable, "-m", "streamlit", "run", __file__,
+        "--server.port", port,
+        "--server.address", "0.0.0.0",
+        "--server.headless", "true"
+    ])
 
 st.title("🤖 AI Chat Demo")
 st.markdown("Simple Streamlit app for Scorecard integration demo.")
