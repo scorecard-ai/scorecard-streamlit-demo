@@ -1,16 +1,4 @@
-# Python
 __pycache__/
-*.pyc
-*.pyo
-*.egg-info/
-
-# Virtual environments
-venv/
-.venv/
 .env
-
-# Streamlit
 .streamlit/
-
-# OS
 .DS_Store
