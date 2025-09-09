@@ -5,13 +5,8 @@ import os
 st.title("🤖 AI Chat Demo")
 st.markdown("Simple Streamlit app for Scorecard integration demo.")
 
-# Configuration
-with st.sidebar:
-    openai_api_key = st.text_input(
-        "OpenAI API Key",
-        type="password",
-        value=os.getenv("OPENAI_API_KEY", "")
-    )
+# Get API key from environment
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -25,7 +20,7 @@ for message in st.session_state.messages:
 # Chat input
 if prompt := st.chat_input("Ask me anything!"):
     if not openai_api_key:
-        st.error("Please enter your OpenAI API key.")
+        st.error("OpenAI API key not found. Please set OPENAI_API_KEY environment variable.")
         st.stop()
     
     client = openai.OpenAI(api_key=openai_api_key)
