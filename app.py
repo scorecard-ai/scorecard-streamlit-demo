@@ -2,7 +2,8 @@ import streamlit as st
 import openai
 import os
 
-st.title("🤖 AI Chat Demo")
+st.title("🍽️ Restaurant Recommender")
+st.markdown("Get personalized restaurant suggestions based on your preferences.")
 
 # Get API key from environment
 openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -17,7 +18,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Chat input
-if prompt := st.chat_input("Ask me anything!"):
+if prompt := st.chat_input("Tell me what you're looking for (cuisine, occasion, budget, location)..."):
     if not openai_api_key:
         st.error("OpenAI API key not found. Please set OPENAI_API_KEY environment variable.")
         st.stop()
@@ -35,7 +36,10 @@ if prompt := st.chat_input("Ask me anything!"):
         try:
             response = client.chat.completions.create(
                 model="gpt-4o-mini",
-                messages=[{"role": "user", "content": prompt}]
+                messages=[
+                    {"role": "system", "content": "You are a helpful restaurant recommender. Provide specific restaurant suggestions with brief explanations of why they match the user's preferences. Keep responses to 1-2 paragraphs."},
+                    {"role": "user", "content": prompt}
+                ]
             )
             
             ai_response = response.choices[0].message.content
